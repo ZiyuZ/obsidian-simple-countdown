@@ -1,0 +1,9 @@
+{
+	"id": "obsidian-simple-countdown",
+	"name": "Simple Countdown Widget",
+	"version": "1.0.0",
+	"minAppVersion": "1.0.0",
+	"description": "A simple countdown card widget like calendar block",
+	"author": "ZiyuZ",
+	"main": "main.js"
+}
