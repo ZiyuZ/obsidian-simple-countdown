@@ -1,4 +1,11 @@
-# Obsidian 简单倒计时小组件
+<h1 align="center">Obsidian 简单倒计时小组件</h1>
+
+<p align="center">
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown"><img src="https://img.shields.io/github/stars/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/downloads/ZiyuZ/obsidian-simple-countdown/main.js?style=flat-square&label=Downloads" alt="Downloads"></a>
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/v/release/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Latest Release"></a>
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="License"></a>
+</p>
 
 <p align="center">
 中文 | <a href="README.md">English</a>
@@ -41,7 +48,6 @@
 }
 ```
 ````
-
 
 </details>
 
@@ -303,7 +309,7 @@ obsidian-simple-countdown/
 │   │   ├── card-templates.ts   # 卡片 HTML 模板
 │   │   └── alert-templates.ts  # 错误提示模板
 │   ├── parsers/
-│   │   └── countdown-parser.ts    # 倒计时项目解析器
+│   │   └── countdown-parser.ts # 倒计时项目解析器
 │   └── utils/
 │       └── time-utils.ts       # 时间计算工具
 ├── assets/                     # 截图和图片

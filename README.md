@@ -1,4 +1,12 @@
-# Simple Countdown Widget for Obsidian
+<h1 align="center">Simple Countdown Widget for Obsidian</h1>
+
+<p align="center">
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown"><img src="https://img.shields.io/github/stars/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/downloads/ZiyuZ/obsidian-simple-countdown/main.js?style=flat-square&label=Downloads" alt="Downloads"></a>
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/v/release/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Latest Release"></a>
+  <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="License"></a>
+</p>
+
 
 <p align="center">
 <a href="README-zh.md">中文文档</a> | English
@@ -302,7 +310,7 @@ obsidian-simple-countdown/
 │   │   ├── card-templates.ts   # Card HTML templates
 │   │   └── alert-templates.ts  # Error alert templates
 │   ├── parsers/
-│   │   └── countdown-parser.ts    # Countdown items parser
+│   │   └── countdown-parser.ts # Countdown items parser
 │   └── utils/
 │       └── time-utils.ts       # Time calculation utilities
 ├── assets/                     # Screenshots and images
