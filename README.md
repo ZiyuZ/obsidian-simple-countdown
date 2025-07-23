@@ -1,15 +1,13 @@
 <h1 align="center">Simple Countdown Widget for Obsidian</h1>
 
 <p align="center">
+<a href="README-zh.md">中文</a> | English
+</p>
+<p align="center">
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown"><img src="https://img.shields.io/github/stars/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/downloads/ZiyuZ/obsidian-simple-countdown/main.js?style=flat-square&label=Downloads" alt="Downloads"></a>
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/v/release/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Latest Release"></a>
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="License"></a>
-</p>
-
-
-<p align="center">
-<a href="README-zh.md">中文文档</a> | English
 </p>
 
 An elegant countdown widget plugin for Obsidian that displays beautiful countdown cards for important events and deadlines.
@@ -70,7 +68,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 
 </details>
 
-## ✨ Features
+<h2 align='center'>✨ Features ✨</h2>
 
 - 🎨 **Customizable Cards**: Set colors and date formats for each countdown
 - ⚙️ **Easy Configuration**: Adjust formats, colors, and font sizes in settings
@@ -89,7 +87,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 > - **Auto Update ON** (default): Countdowns update automatically every second for real-time display
 > - **Auto Update OFF**: Countdowns only refresh when the block is re-rendered (when reopening the note, switching to edit mode and back, or refreshing the view). In this mode, the countdown numbers (minutes, seconds, etc.) will not change automatically until the block is re-rendered
 
-## 📦 Installation
+<h2 align='center'>📦 Installation 📦</h2>
 
 ### Manual Installation
 
@@ -121,7 +119,7 @@ Your folder structure should look like this:
 
 > The plugin is not yet available in Obsidian community plugin list.
 
-## 🚀 Usage
+<h2 align='center'>🚀 Usage 🚀</h2>
 
 ### Basic Text Format
 
@@ -161,11 +159,16 @@ Simply create a code block with the `countdown` language tag:
 ```
 ````
 
-## ⚙️ Configuration
+<h2 align='center'>⚙️ Configuration ⚙️</h2>
+
+<details>
+<summary>🖼️ Configuration Screenshot</summary>
 
 <p align="center">
- <img src="assets/config_en.png" alt="插件预览" width="80%">
+ <img src="assets/config_en.png" alt="Plugin Configuration" width="80%">
 </p>
+
+</details>
 
 ### Accessing Settings
 
@@ -208,14 +211,18 @@ You can access the plugin settings through:
 
 ### Date Format Examples
 
+<div align="center">
+
 | Format Code    | Example Output | Description      |
-| -------------- | -------------- | ---------------- |
+| :------------: | :------------: | :--------------: |
 | `YYYY-MM-DD`   | 2025-07-22     | Standard format  |
 | `MM/DD/YYYY`   | 07/22/2025     | US format        |
 | `DD/MM/YYYY`   | 22/07/2025     | EU format        |
 | `MMM Do, YYYY` | Jul 22nd, 2025 | English format   |
 | `MM月DD日`     | 07月22日       | Chinese format   |
 | `dddd`         | Tuesday        | Day of week only |
+
+</div>
 
 ### Priority System
 
@@ -225,7 +232,7 @@ Settings are applied in the following priority order:
 2. User default settings
 3. Built-in default values (lowest priority)
 
-## 📖 Input Format Reference
+<h2 align='center'>📖 Input Format Reference 📖</h2>
 
 ### Text Format Syntax
 
@@ -237,10 +244,10 @@ date | title | color(optional) | date format(optional)
 
 ```typescript
 interface CountdownItem {
-  date: string;        // Required: ISO date string
-  title: string;       // Required: Event title
-  color?: string;      // Optional: Hex color (e.g., #ff0000)
-  format?: string;     // Optional: Date format (dayjs format)
+  date: string;     // Required: ISO date string
+  title: string;    // Required: Event title
+  color?: string;   // Optional: Hex color (e.g., #ff0000)
+  format?: string;  // Optional: Date format in the upper left corner
 }
 ```
 
@@ -249,7 +256,7 @@ interface CountdownItem {
 - ISO dates: `2025-12-25`, `2025-12-25T23:59:59`
 - Various formats supported by dayjs library
 
-## 🎨 Color Options
+### Color Options
 
 Use hex color codes for custom colors:
 
@@ -257,12 +264,13 @@ Use hex color codes for custom colors:
 - $\color{#28a745}{\blacksquare}$ `#28a745` - Green  
 - $\color{#dc3545}{\blacksquare}$ `#dc3545` - Red
 - $\color{#ffc107}{\blacksquare}$ `#ffc107` - Yellow
+- $\color{#fd7e14}{\blacksquare}$ `#fd7e14` - Orange
 - $\color{#6f42c1}{\blacksquare}$ `#6f42c1` - Purple
 
 > [!TIP]
 > Since the event title text is displayed in white, please use darker background colors for better readability and contrast.
 
-## 🔧 Development
+<h2 align='center'>🔧 Development 🔧</h2>
 
 ### Prerequisites
 
@@ -322,11 +330,11 @@ obsidian-simple-countdown/
 └── README.md                   # This file
 ```
 
-## 📝 License
+<h2 align='center'>📝 License 📝</h2>
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+<h2 align='center'>🙏 Acknowledgments 🙏</h2>
 
 - Built with [Obsidian Plugin API](https://github.com/obsidianmd/obsidian-api)
 - Uses [dayjs](https://day.js.org/) for date manipulation

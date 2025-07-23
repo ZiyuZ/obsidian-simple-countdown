@@ -1,14 +1,13 @@
 <h1 align="center">Obsidian 简单倒计时小组件</h1>
 
 <p align="center">
+中文 | <a href="README.md">English</a>
+</p>
+<p align="center">
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown"><img src="https://img.shields.io/github/stars/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Stars"></a>
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/downloads/ZiyuZ/obsidian-simple-countdown/main.js?style=flat-square&label=Downloads" alt="Downloads"></a>
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/releases"><img src="https://img.shields.io/github/v/release/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="Latest Release"></a>
   <a href="https://github.com/ZiyuZ/obsidian-simple-countdown/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZiyuZ/obsidian-simple-countdown?style=flat-square" alt="License"></a>
-</p>
-
-<p align="center">
-中文 | <a href="README.md">English</a>
 </p>
 
 一个优雅的 Obsidian 倒计时小组件插件，为重要事件和截止日期显示精美的倒计时卡片。
@@ -37,7 +36,11 @@
 ]
 ```
 
-> 如果只有一个倒计时, 可以省略 `[]` 数组符号
+> 该插件尚未在 Obsidian 社区插件列表中提供。
+
+<h2 align='center'>🚀 使用方法 🚀</h2>
+
+### 基本文本格式
 
 ```countdown
 {
@@ -69,7 +72,7 @@
 
 </details>
 
-## ✨ 功能特性
+<h2 align='center'>✨ 功能特性 ✨</h2>
 
 - 🎨 **可自定义卡片**：为每个倒计时设置颜色和日期格式
 - ⚙️ **简易配置**：在设置中调整格式、颜色和字体大小
@@ -88,14 +91,14 @@
 > - **自动更新开启**（默认）：倒计时每秒自动更新，提供实时显示
 > - **自动更新关闭**：倒计时仅在块重新渲染时刷新（重新打开笔记、切换到编辑模式再回到预览模式，或刷新视图时）。在此模式下，倒计时数字（分钟、秒钟等）不会自动变化，直到块重新渲染
 
-## 📦 安装
+<h2 align='center'>📦 安装 📦</h2>
 
 ### 手动安装
 
 1. 从 [GitHub Releases](https://github.com/ZiyuZ/obsidian-simple-countdown/releases) 下载最新的 `main.js` 和 `manifest.json` 文件
 2. 在您知识库的 `.obsidian/plugins/` 目录中创建名为 `obsidian-simple-countdown` 的新文件夹（如果不存在）
 3. 将下载的两个文件放入 `obsidian-simple-countdown` 文件夹中
-4. 重新加载 Obsidian 并在社区插件设置中启用该插件
+4. 重新加载 Obsidian 并在第三方插件设置中启用该插件
 
 您的文件夹结构应如下所示：
 
@@ -160,17 +163,22 @@
 ```
 ````
 
-## ⚙️ 配置
+<h2 align='center'>⚙️ 配置 ⚙️</h2>
+
+<details>
+<summary>🖼️ 配置界面截图</summary>
 
 <p align="center">
- <img src="assets/config_cn.png" alt="插件预览" width="80%">
+ <img src="assets/config_cn.png" alt="插件配置界面" width="80%">
 </p>
+
+</details>
 
 ### 访问设置
 
 您可以通过以下方式访问插件设置：
 
-- `设置 → 社区插件 → Simple Countdown Widget → 选项`
+- `设置 → 第三方插件 → Simple Countdown Widget → 选项`
 - 或使用快捷键 `Ctrl/Cmd + ,` 打开设置，然后找到该插件
 
 ### 可用设置
@@ -207,14 +215,18 @@
 
 ### 日期格式示例
 
+<div align="center">
+
 | 格式代码       | 示例输出       | 描述         |
-| -------------- | -------------- | ------------ |
+| :------------: | :------------: | :----------: |
 | `YYYY-MM-DD`   | 2025-07-22     | 标准格式     |
 | `MM/DD/YYYY`   | 07/22/2025     | 美式格式     |
 | `DD/MM/YYYY`   | 22/07/2025     | 欧式格式     |
 | `MMM Do, YYYY` | Jul 22nd, 2025 | 英文格式     |
 | `MM月DD日`     | 07月22日       | 中文格式     |
 | `dddd`         | Tuesday        | 仅显示星期几 |
+
+</div>
 
 ### 优先级
 
@@ -224,7 +236,7 @@
 2. 用户默认设置
 3. 内置默认值（最低优先级）
 
-## 📖 输入格式参考
+<h2 align='center'>📖 输入格式参考 📖</h2>
 
 ### 文本格式语法
 
@@ -236,10 +248,10 @@
 
 ```typescript
 interface CountdownItem {
-  date: string;        // 必需：ISO 日期字符串
-  title: string;       // 必需：事件标题
-  color?: string;      // 可选：十六进制颜色（例如：#ff0000）
-  format?: string;     // 可选：日期格式（dayjs 格式）
+  date: string;     // 必需：ISO 日期字符串
+  title: string;    // 必需：事件标题
+  color?: string;   // 可选：十六进制颜色（例如：#ff0000）
+  format?: string;  // 可选：左上角日期显示格式
 }
 ```
 
@@ -248,7 +260,7 @@ interface CountdownItem {
 - ISO 日期：`2025-12-25`、`2025-12-25T23:59:59`
 - dayjs 库支持的各种格式
 
-## 🎨 颜色选项
+### 颜色选项
 
 使用十六进制颜色代码进行自定义颜色：
 
@@ -256,12 +268,13 @@ interface CountdownItem {
 - $\color{#28a745}{\blacksquare}$ `#28a745` - 绿色
 - $\color{#dc3545}{\blacksquare}$ `#dc3545` - 红色
 - $\color{#ffc107}{\blacksquare}$ `#ffc107` - 黄色
+- $\color{#fd7e14}{\blacksquare}$ `#fd7e14` - 橙色
 - $\color{#6f42c1}{\blacksquare}$ `#6f42c1` - 紫色
 
 > [!TIP]
 > 由于事件标题文本显示为白色，请使用较深的背景色以获得更好的可读性和对比度。
 
-## 🔧 开发
+<h2 align='center'>🔧 开发 🔧</h2>
 
 ### 前置要求
 
@@ -321,11 +334,11 @@ obsidian-simple-countdown/
 └── README.md                   # 本文件
 ```
 
-## 📝 许可证
+<h2 align='center'>📝 许可证 📝</h2>
 
 本项目使用 MIT 许可证 - 详情请参见 [LICENSE](LICENSE) 文件。
 
-## 🙏 致谢
+<h2 align='center'>🙏 致谢 🙏</h2>
 
 - 基于 [Obsidian Plugin API](https://github.com/obsidianmd/obsidian-api) 构建
 - 使用 [dayjs](https://day.js.org/) 进行日期操作
