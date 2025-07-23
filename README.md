@@ -80,9 +80,19 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 2. Extract the `obsidian-simple-countdown` folder into your vault's `.obsidian/plugins/` folder.
 3. Reload Obsidian and enable the plugin in Community Plugins settings
 
+### Using BRAT (Beta Reviewers Auto-update Tool)
+
+1. Install the [BRAT plugin](https://github.com/TfTHacker/obsidian42-brat) from Obsidian Community Plugins
+2. Open BRAT settings in Obsidian
+3. Click "Add Beta Plugin" and enter: `ZiyuZ/obsidian-simple-countdown`
+4. Enable the plugin in Community Plugins settings
+
+> [!TIP]
+> Using BRAT allows you to automatically receive updates for this plugin, even before it's available in the official community plugins list.
+
 ### From Obsidian Community Plugins
 
-> The plugin is not yet available in Obsidian community plugin list, so it has to be installed manually for now.
+> The plugin is not yet available in Obsidian community plugin list.
 
 ## 🚀 Usage
 
@@ -213,13 +223,11 @@ interface CountdownItem {
 
 Use hex color codes for custom colors:
 
-<ul>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#007bff; vertical-align:middle; margin-right:0.2em;"></span> <code>#007bff</code> - Blue (default)</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#28a745; vertical-align:middle; margin-right:0.2em;"></span> <code>#28a745</code> - Green</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#dc3545; vertical-align:middle; margin-right:0.2em;"></span> <code>#dc3545</code> - Red</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#ffc107; vertical-align:middle; margin-right:0.2em;"></span> <code>#ffc107</code> - Yellow</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#6f42c1; vertical-align:middle; margin-right:0.2em;"></span> <code>#6f42c1</code> - Purple</li>
-</ul>
+- $\color{#007bff}{\blacksquare}$ `#007bff` - Blue (default)
+- $\color{#28a745}{\blacksquare}$ `#28a745` - Green  
+- $\color{#dc3545}{\blacksquare}$ `#dc3545` - Red
+- $\color{#ffc107}{\blacksquare}$ `#ffc107` - Yellow
+- $\color{#6f42c1}{\blacksquare}$ `#6f42c1` - Purple
 
 > [!TIP]
 > Since the event title text is displayed in white, please use darker background colors for better readability and contrast.

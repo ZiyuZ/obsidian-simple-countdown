@@ -80,9 +80,19 @@
 2. 将 `obsidian-simple-countdown` 文件夹解压到您知识库的 `.obsidian/plugins/` 文件夹中
 3. 重新加载 Obsidian 并在社区插件设置中启用该插件
 
+### 使用 BRAT 安装
+
+1. 从 Obsidian 社区插件安装 [BRAT 插件](https://github.com/TfTHacker/obsidian42-brat)
+2. 在 Obsidian 中打开 BRAT 设置
+3. 点击"添加Beta插件"并输入：`ZiyuZ/obsidian-simple-countdown`
+4. 在社区插件设置中启用该插件
+
+> [!TIP]
+> 使用 BRAT 可以让您自动接收此插件的更新，即使它还未在官方社区插件列表中提供。
+
 ### 从社区安装插件
 
-> 该插件尚未在 Obsidian 社区插件列表中提供，因此目前需要手动安装。
+> 该插件尚未在 Obsidian 社区插件列表中提供。
 
 ## 🚀 使用方法
 
@@ -213,13 +223,11 @@ interface CountdownItem {
 
 使用十六进制颜色代码进行自定义颜色：
 
-<ul>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#007bff; vertical-align:middle; margin-right:0.2em;"></span> <code>#007bff</code> - 蓝色（默认）</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#28a745; vertical-align:middle; margin-right:0.2em;"></span> <code>#28a745</code> - 绿色</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#dc3545; vertical-align:middle; margin-right:0.2em;"></span> <code>#dc3545</code> - 红色</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#ffc107; vertical-align:middle; margin-right:0.2em;"></span> <code>#ffc107</code> - 黄色</li>
-  <li><span style="display:inline-block; width: 1em; height: 1em; background-color:#6f42c1; vertical-align:middle; margin-right:0.2em;"></span> <code>#6f42c1</code> - 紫色</li>
-</ul>
+- $\color{#007bff}{\blacksquare}$ `#007bff` - 蓝色（默认）
+- $\color{#28a745}{\blacksquare}$ `#28a745` - 绿色
+- $\color{#dc3545}{\blacksquare}$ `#dc3545` - 红色
+- $\color{#ffc107}{\blacksquare}$ `#ffc107` - 黄色
+- $\color{#6f42c1}{\blacksquare}$ `#6f42c1` - 紫色
 
 > [!TIP]
 > 由于事件标题文本显示为白色，请使用较深的背景色以获得更好的可读性和对比度。
