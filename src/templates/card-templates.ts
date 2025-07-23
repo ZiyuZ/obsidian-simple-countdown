@@ -1,4 +1,4 @@
-import type { Dayjs } from 'dayjs';
+import type { Dayjs } from "dayjs";
 
 /**
  * 倒计时卡片模板
@@ -18,7 +18,7 @@ export const createCountdownCard = (
 			<div style="position: absolute; top: 10px; left: 16px; font-size: ${dateFontSize}px; opacity: 0.9;">${date.format(format)}</div>
 			<div style="font-size: ${titleFontSize}px; font-weight: bold; text-align: center; margin-top: 16px;">${title}</div>
 		</div>
-		<div class="countdown-time" style="background-color: white; color: black; padding: 32px 0; text-align: center; font-size: ${timeFontSize}px;">
+		<div class="countdown-time" style="background-color: white; color: #333; padding: 32px 0; text-align: center; font-size: ${timeFontSize}px; font-weight: bold;">
 			${timeText}
 		</div>
 	`;

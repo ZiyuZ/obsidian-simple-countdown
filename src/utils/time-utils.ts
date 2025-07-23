@@ -1,6 +1,6 @@
-import type dayjs from 'dayjs';
+import type dayjs from "dayjs";
 
-import type { LocaleStrings } from '../locale';
+import type { LocaleStrings } from "../locale";
 
 /**
  * 格式化时间单位（处理单复数）
@@ -17,7 +17,7 @@ const formatTimeUnit = (
  * 将多个时间部分组合成最终显示文本
  */
 const formatTimeParts = (parts: string[]): string => {
-	return `<strong>${parts.join(" ")}</strong>`;
+	return parts.join(" ");
 };
 
 /**
