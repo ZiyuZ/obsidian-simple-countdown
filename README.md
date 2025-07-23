@@ -13,7 +13,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 <details>
 <summary>📖 JSON Format Example</summary>
 
-````
+````markdown
 ```countdown
 [
   {
@@ -29,9 +29,18 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
   }
 ]
 ```
-````
 
 > If there's only one countdown, the [] array symbols can be omitted.
+
+```countdown
+{
+  "date": "2025-12-25",
+  "title": "Christmas",
+  "color": "#dc3545",
+  "format": "MMM Do, YYYY"
+}
+```
+````
 
 </details>
 
@@ -42,7 +51,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 <details>
 <summary>📝 Text Format Example</summary>
 
-````
+````markdown
 ```countdown
 2024-10-25 | Leaving home | #d9534f
 2025-10-25 | Go home | #2c7be5
