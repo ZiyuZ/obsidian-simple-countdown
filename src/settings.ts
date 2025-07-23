@@ -7,6 +7,11 @@ import {
 } from 'obsidian';
 
 import {
+  COLOR_REGEX,
+  DEFAULT_COLOR,
+  FONT_SIZE_LIMITS,
+} from './constants';
+import {
   detectLanguage,
   getLocale,
   type SupportedLanguage,
@@ -33,7 +38,7 @@ export interface CountdownSettings {
  */
 export const DEFAULT_SETTINGS: CountdownSettings = {
 	defaultDateFormat: "YYYY-MM-DD",
-	defaultColor: "#007bff",
+	defaultColor: DEFAULT_COLOR,
 	language: detectLanguage(),
 	dateFontSize: 14,
 	titleFontSize: 26,
@@ -50,6 +55,56 @@ export class CountdownSettingTab extends PluginSettingTab {
 	constructor(app: App, plugin: CountdownPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
+	}
+
+	/**
+	 * 处理颜色值变化
+	 */
+	private async handleColorChange(
+		value: string,
+		textInput: TextComponent,
+		colorPicker?: ColorComponent,
+	): Promise<void> {
+		if (!value) {
+			// 空值时使用默认颜色
+			await this.updateColor(DEFAULT_COLOR, textInput, colorPicker);
+			return;
+		}
+
+		// 6位十六进制格式
+		if (value.match(COLOR_REGEX.HEX_6)) {
+			await this.updateColor(value, textInput, colorPicker);
+		}
+		// 3位十六进制格式，转换为6位
+		else if (value.match(COLOR_REGEX.HEX_3)) {
+			const expandedColor = value.replace(
+				/^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/,
+				"#$1$1$2$2$3$3",
+			);
+			await this.updateColor(expandedColor, textInput, colorPicker);
+		}
+		// 无效格式，恢复到之前保存的值
+		else {
+			textInput.setValue(this.plugin.settings.defaultColor);
+		}
+	}
+
+	/**
+	 * 更新颜色设置
+	 */
+	private async updateColor(
+		color: string,
+		textInput: TextComponent,
+		colorPicker?: ColorComponent,
+	): Promise<void> {
+		this.plugin.settings.defaultColor = color;
+		await this.plugin.saveSettings();
+		this.plugin.refreshAllCards();
+
+		textInput.setValue(color);
+		if (colorPicker) {
+			colorPicker.setValue(color);
+		}
 	}
 
 	display(): void {
@@ -187,51 +242,11 @@ export class CountdownSettingTab extends PluginSettingTab {
 
 				// 使用 inputEl 的 blur 事件来避免输入过程中的干扰
 				textInput.inputEl.addEventListener("blur", async () => {
-					const value = textInput.getValue();
-
-					if (!value) {
-						// 空值时使用默认颜色
-						const defaultColor = "#007bff";
-						this.plugin.settings.defaultColor = defaultColor;
-						await this.plugin.saveSettings();
-						// 触发所有卡片更新
-						this.plugin.refreshAllCards();
-						textInput.setValue(defaultColor);
-						if (colorPicker) {
-							colorPicker.setValue(defaultColor);
-						}
-						return;
-					}
-
-					// 检查是否是完整的有效颜色格式
-					if (value.match(/^#[0-9a-fA-F]{6}$/)) {
-						// 6位格式，直接保存并同步
-						this.plugin.settings.defaultColor = value;
-						await this.plugin.saveSettings();
-						// 触发所有卡片更新
-						this.plugin.refreshAllCards();
-						if (colorPicker) {
-							colorPicker.setValue(value);
-						}
-					} else if (value.match(/^#[0-9a-fA-F]{3}$/)) {
-						// 3位格式，转换为6位格式
-						const expandedColor = value.replace(
-							/^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/,
-							"#$1$1$2$2$3$3",
-						);
-						this.plugin.settings.defaultColor = expandedColor;
-						await this.plugin.saveSettings();
-						// 触发所有卡片更新
-						this.plugin.refreshAllCards();
-						// 更新输入框显示转换后的6位格式
-						textInput.setValue(expandedColor);
-						if (colorPicker) {
-							colorPicker.setValue(expandedColor);
-						}
-					} else {
-						// 无效格式，恢复到之前保存的值
-						textInput.setValue(this.plugin.settings.defaultColor);
-					}
+					await this.handleColorChange(
+						textInput.getValue(),
+						textInput,
+						colorPicker,
+					);
 				});
 
 				return text;
@@ -261,7 +276,7 @@ export class CountdownSettingTab extends PluginSettingTab {
 			.setDesc(locale.dateFontSizeDesc)
 			.addSlider((slider) =>
 				slider
-					.setLimits(10, 24, 1)
+					.setLimits(FONT_SIZE_LIMITS.DATE.min, FONT_SIZE_LIMITS.DATE.max, 1)
 					.setValue(this.plugin.settings.dateFontSize)
 					.setDynamicTooltip()
 					.onChange(async (value) => {
@@ -278,7 +293,7 @@ export class CountdownSettingTab extends PluginSettingTab {
 			.setDesc(locale.titleFontSizeDesc)
 			.addSlider((slider) =>
 				slider
-					.setLimits(16, 36, 1)
+					.setLimits(FONT_SIZE_LIMITS.TITLE.min, FONT_SIZE_LIMITS.TITLE.max, 1)
 					.setValue(this.plugin.settings.titleFontSize)
 					.setDynamicTooltip()
 					.onChange(async (value) => {
@@ -295,7 +310,7 @@ export class CountdownSettingTab extends PluginSettingTab {
 			.setDesc(locale.timeFontSizeDesc)
 			.addSlider((slider) =>
 				slider
-					.setLimits(16, 32, 1)
+					.setLimits(FONT_SIZE_LIMITS.TIME.min, FONT_SIZE_LIMITS.TIME.max, 1)
 					.setValue(this.plugin.settings.timeFontSize)
 					.setDynamicTooltip()
 					.onChange(async (value) => {

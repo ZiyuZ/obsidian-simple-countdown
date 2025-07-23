@@ -94,9 +94,7 @@ export const locales: Record<SupportedLanguage, LocaleStrings> = {
 		refreshInstructions: `
 			💡 Tip: This plugin supports automatic countdown updates every second. 
 					You can enable/disable auto-update in the settings below. 
-					When auto-update is disabled, countdowns will only update when the note is refreshed.
-					After changing settings, you may need to switch to edit mode and back to preview mode, 
-					or reopen the note to see changes applied to existing countdown widgets.`,
+					When auto-update is disabled, countdowns will only update when the note is refreshed.`,
 
 		configEmpty: "Countdown items list is empty",
 		configFormatError: "Countdown items format error",
@@ -104,11 +102,11 @@ export const locales: Record<SupportedLanguage, LocaleStrings> = {
 		arrayFormatRequired: "Countdown items must be in array format",
 		unknownError: "Unknown error",
 		formatError: (index: number, content: string) =>
-			`Countdown item ${index} format error: "${content}"<br>Correct format: <code>date | title | color(optional) | format(optional)</code>`,
+			`Countdown item ${index} has a format error: "${content}"<br>Correct format: <code>date | title | color(optional) | format(optional)</code>`,
 		dateInvalid: (index: number, date: string) =>
-			`Countdown item ${index} invalid date format: "${date}"<br>Please use valid date format, e.g., <code>2025-07-25</code> or <code>2025-07-25T23:00</code>`,
+			`Countdown item ${index} has an invalid date format: "${date}"<br>Please use a valid date format, e.g., <code>2025-07-25</code> or <code>2025-07-25T23:00</code>`,
 		colorInvalid: (index: number, color: string) =>
-			`Countdown item ${index} invalid color format: "${color}"<br>Please use hex color format, e.g., <code>#ff0000</code> or <code>#f00</code>`,
+			`Countdown item ${index} has an invalid color format: "${color}"<br>Please use hex color format, e.g., <code>#ff0000</code> or <code>#f00</code>`,
 		titleRequired: "Title cannot be empty",
 		cardCreationFailed: "Card creation failed",
 
@@ -157,9 +155,7 @@ export const locales: Record<SupportedLanguage, LocaleStrings> = {
 		refreshInstructions: `
 			💡 提示：此插件支持倒计时每秒自动更新。
 					您可以在下方设置中启用/禁用自动更新功能。
-					关闭自动更新时，倒计时仅在笔记刷新时更新。
-					修改设置后，您可能需要切换到编辑模式再回到预览模式，
-					或重新打开笔记才能看到现有倒计时小组件的更改效果。`,
+					关闭自动更新时，倒计时仅在笔记刷新时更新。`,
 
 		configEmpty: "倒计时项目列表为空",
 		configFormatError: "倒计时项目格式错误",

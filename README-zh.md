@@ -31,6 +31,8 @@
 ```
 ````
 
+> 如果只有一个倒计时, 可以省略 `[]` 数组符号
+
 </details>
 
 <p align="center">
@@ -284,6 +286,7 @@ obsidian-simple-countdown/
 │   ├── main.ts                 # 主插件入口点
 │   ├── settings.ts             # 插件设置和配置
 │   ├── locale.ts               # 国际化支持
+│   ├── constants.ts            # 常量和配置值
 │   ├── types/
 │   │   └── index.ts            # 类型定义
 │   ├── templates/

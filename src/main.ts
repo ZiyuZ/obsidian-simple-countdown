@@ -6,6 +6,7 @@ import {
   Plugin,
 } from 'obsidian';
 
+import { UPDATE_INTERVAL } from './constants';
 import {
   getLocale,
   type LocaleStrings,
@@ -46,12 +47,18 @@ export default class CountdownPlugin extends Plugin {
 		lastRenderedSettings: string;
 	}> = new Set();
 
+	// 全局 MutationObserver，避免为每个容器创建单独的观察者
+	private globalObserver: MutationObserver | null = null;
+
 	async onload() {
 		// 加载设置
 		await this.loadSettings();
 
 		// 添加设置标签页
 		this.addSettingTab(new CountdownSettingTab(this.app, this));
+
+		// 初始化全局观察者
+		this.initGlobalObserver();
 
 		// console.log("Countdown Widget 插件已加载");
 
@@ -65,7 +72,42 @@ export default class CountdownPlugin extends Plugin {
 	}
 
 	onunload() {
+		// 清理全局观察者
+		if (this.globalObserver) {
+			this.globalObserver.disconnect();
+			this.globalObserver = null;
+		}
 		// console.log("Countdown Widget 插件已卸载");
+	}
+
+	/**
+	 * 初始化全局 MutationObserver
+	 */
+	private initGlobalObserver(): void {
+		this.globalObserver = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				for (let i = 0; i < mutation.removedNodes.length; i++) {
+					const removedNode = mutation.removedNodes[i];
+
+					// 检查哪些容器被移除了
+					for (const containerData of this.activeContainers) {
+						const { container } = containerData;
+						if (
+							removedNode === container ||
+							(removedNode as Element)?.contains?.(container)
+						) {
+							this.activeContainers.delete(containerData);
+						}
+					}
+				}
+			}
+		});
+
+		// 监听整个文档的节点变化
+		this.globalObserver.observe(document.body, {
+			childList: true,
+			subtree: true,
+		});
 	}
 
 	/**
@@ -110,15 +152,8 @@ export default class CountdownPlugin extends Plugin {
 	 * 获取当前设置的哈希值，用于检测设置变化
 	 */
 	private getSettingsHash(): string {
-		const settingsToHash = {
-			defaultColor: this.settings.defaultColor,
-			defaultDateFormat: this.settings.defaultDateFormat,
-			dateFontSize: this.settings.dateFontSize,
-			titleFontSize: this.settings.titleFontSize,
-			timeFontSize: this.settings.timeFontSize,
-			language: this.settings.language,
-		};
-		return JSON.stringify(settingsToHash);
+		// 直接序列化所有设置，简单但可能有轻微性能影响
+		return JSON.stringify(this.settings);
 	}
 
 	/**
@@ -134,29 +169,9 @@ export default class CountdownPlugin extends Plugin {
 
 		this.activeContainers.add(containerData);
 
-		// 监听容器被移除，清理引用
-		const observer = new MutationObserver((mutations) => {
-			for (const mutation of mutations) {
-				for (let i = 0; i < mutation.removedNodes.length; i++) {
-					const removedNode = mutation.removedNodes[i];
-					if (removedNode === el || (removedNode as Element)?.contains?.(el)) {
-						this.activeContainers.delete(containerData);
-						observer.disconnect();
-						break;
-					}
-				}
-			}
-		});
-
-		observer.observe(document.body, {
-			childList: true,
-			subtree: true,
-		});
-
 		// 渲染内容
 		this.renderCountdownContent(source, el);
 	}
-
 	/**
 	 * 渲染倒计时内容
 	 */
@@ -165,23 +180,32 @@ export default class CountdownPlugin extends Plugin {
 		const locale = getLocale(this.settings.language);
 		// console.log("处理倒计时代码块\n", source);
 
-		// 解析配置 - 支持两种格式：JSON 和自定义文本格式
 		try {
-			// 首先尝试作为JSON解析
-			rawItems = JSON.parse(source.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "")); // 移除注释
-			// console.log("解析为JSON格式\n", rawItems);
-		} catch (_jsonError) {
-			// 如果JSON解析失败，尝试解析自定义文本格式
-			try {
+			// 移除注释和前后空白字符
+			const cleanedSource = source
+				.replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "") // 移除注释
+				.trim(); // 移除前后空白字符
+
+			// 检查第一个非空字符来判断格式类型
+			const firstChar = cleanedSource.charAt(0);
+
+			if (firstChar === "[" || firstChar === "{") {
+				// JSON 格式 - 直接解析
+				const parsed = JSON.parse(cleanedSource);
+
+				// 如果是单个对象（{...}），包装成数组
+				rawItems = firstChar === "{" ? [parsed] : parsed;
+				// console.log("解析为JSON格式\n", rawItems);
+			} else {
+				// 自定义文本格式
 				rawItems = parseCustomFormat(source, this.settings.language);
-			} catch (parseError) {
-				const errorMessage =
-					parseError instanceof Error
-						? parseError.message
-						: locale.unknownError;
-				this.showErrorAlert(el, locale.configFormatError, errorMessage);
-				return;
+				// console.log("解析为文本格式\n", rawItems);
 			}
+		} catch (parseError) {
+			const errorMessage =
+				parseError instanceof Error ? parseError.message : locale.unknownError;
+			this.showErrorAlert(el, locale.configFormatError, errorMessage);
+			return;
 		}
 
 		// 统一验证配置（对两种格式都进行相同的验证）
@@ -309,40 +333,6 @@ export default class CountdownPlugin extends Plugin {
 	}
 
 	/**
-	 * 强制更新卡片内容（不检查文本变化）
-	 * 用于设置更改后的强制刷新
-	 */
-	private forceUpdateCardContent(
-		card: HTMLElement,
-		item: CountdownItem,
-		date: dayjs.Dayjs,
-		color: string,
-		format: string,
-		locale: LocaleStrings,
-	): void {
-		const now = dayjs();
-		const diffMs = date.diff(now);
-		const past = diffMs < 0;
-		const absDiff = Math.abs(diffMs);
-		const dur = dayjs.duration(absDiff);
-
-		// 计算显示文本
-		const newText = calculateTimeText(past, absDiff, dur, locale.timeUnits);
-
-		// 强制更新卡片内容
-		card.innerHTML = createCountdownCard(
-			date,
-			item.title,
-			color,
-			newText,
-			format,
-			this.settings.dateFontSize,
-			this.settings.titleFontSize,
-			this.settings.timeFontSize,
-		);
-	}
-
-	/**
 	 * 设置卡片自动更新
 	 */
 	private setupCardAutoUpdate(card: HTMLElement, item: CountdownItem): void {
@@ -354,7 +344,7 @@ export default class CountdownPlugin extends Plugin {
 		// 每秒更新一次倒计时
 		const updateInterval = window.setInterval(() => {
 			this.updateCardContent(card, item, date, color, format, locale);
-		}, 1000);
+		}, UPDATE_INTERVAL);
 
 		// 注册定时器，插件卸载时会自动清理
 		this.registerInterval(updateInterval);

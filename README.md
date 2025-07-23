@@ -31,6 +31,8 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 ```
 ````
 
+> If there's only one countdown, the [] array symbols can be omitted.
+
 </details>
 
 <p align="center">
@@ -284,6 +286,7 @@ obsidian-simple-countdown/
 │   ├── main.ts                 # Main plugin entry point
 │   ├── settings.ts             # Plugin settings and configuration
 │   ├── locale.ts               # Internationalization support
+│   ├── constants.ts            # Constants and configuration values
 │   ├── types/
 │   │   └── index.ts            # Type definitions
 │   ├── templates/
