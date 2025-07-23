@@ -45,7 +45,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 2024-10-25 | Leaving home | #d9534f
 2025-10-25 | Go home | #2c7be5
 2025-07-25 | Go to Brussels | #28a745
-2025-07-22T23:00 | Submit before sleep | #6f42c1 | YY-MM-DD HH:mm:ss
+2025-07-23T08:00 | Submit Deadline | #6f42c1 | YY-MM-DD HH:mm:ss
 ```
 ````
 
@@ -61,24 +61,32 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
   - **7+ days**: Shows days only for simplicity
   - **1-7 days**: Shows days and hours
   - **1 hour - 1 day**: Shows hours and minutes
-  - **Under 1 hour**: Shows minutes only
+  - **Under 1 hour**: Shows minutes and seconds
+- 🔄 **Auto Update**: Real-time countdown updates every second (can be disabled in settings)
 
 > [!IMPORTANT]
-> **Refresh Mechanism**: Countdown blocks only refresh their time display when the block is re-rendered. This happens when:
+> **Auto Update Feature**: This plugin supports real-time countdown updates every second. You can control this behavior in the plugin settings:
 >
-> - Reopening the note
-> - Switching to edit mode and back to preview mode  
-> - The note view is refreshed or reloaded
->
-> The countdown widget do not auto-update in real-time. To see the latest countdown values, you need to trigger a re-render using one of the methods above.
+> - **Auto Update ON** (default): Countdowns update automatically every second for real-time display
+> - **Auto Update OFF**: Countdowns only refresh when the block is re-rendered (when reopening the note, switching to edit mode and back, or refreshing the view)
 
 ## 📦 Installation
 
 ### Manual Installation
 
-1. Download the latest release from [GitHub Releases](https://github.com/ZiyuZ/obsidian-simple-countdown/releases)
-2. Extract the `obsidian-simple-countdown` folder into your vault's `.obsidian/plugins/` folder.
-3. Reload Obsidian and enable the plugin in Community Plugins settings
+1. Download the latest `main.js` and `manifest.json` files from [GitHub Releases](https://github.com/ZiyuZ/obsidian-simple-countdown/releases)
+2. Create a new folder named `obsidian-simple-countdown` in your vault's `.obsidian/plugins/` directory (if it doesn't exist)
+3. Place both downloaded files into the `obsidian-simple-countdown` folder
+4. Reload Obsidian and enable the plugin in Community Plugins settings
+
+Your folder structure should look like this:
+
+```
+<Your Vault>/.obsidian/plugins/obsidian-simple-countdown/
+├── main.js
+├── manifest.json
+└── data.json (created automatically after first use to store your settings)
+```
 
 ### Using BRAT (Beta Reviewers Auto-update Tool)
 
@@ -170,11 +178,14 @@ You can access the plugin settings through:
 - **Title Font Size**: Adjust the font size for event titles (16-36px)
 - **Time Font Size**: Adjust the font size for countdown time text (16-32px)
 
-> [!IMPORTANT]
-> After changing settings, you may need to:
->
-> - Switch to edit mode and back to preview mode, or
-> - Reopen the note to see changes applied to existing countdown widgets
+**Auto Update Settings**
+
+- **Auto Update**: Enable/disable real-time countdown updates every second
+- When enabled: Countdowns update automatically every second for real-time display
+- When disabled: Countdowns only update when notes are refreshed or re-rendered
+
+> [!TIP]
+> **Settings Changes**: All appearance settings (colors, font sizes, date formats, language) are applied immediately when changed. The auto-update setting only controls whether countdown numbers update in real-time every second.
 
 ### Date Format Examples
 

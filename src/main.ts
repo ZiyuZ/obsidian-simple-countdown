@@ -6,7 +6,10 @@ import {
   Plugin,
 } from 'obsidian';
 
-import { getLocale } from './locale';
+import {
+  getLocale,
+  type LocaleStrings,
+} from './locale';
 import {
   parseCustomFormat,
   validateCountdownItems,
@@ -36,6 +39,12 @@ dayjs.extend(advancedFormat);
 
 export default class CountdownPlugin extends Plugin {
 	settings: CountdownSettings;
+	// 存储所有活动的倒计时容器，用于设置更新时重新渲染
+	private activeContainers: Set<{
+		container: HTMLElement;
+		source: string;
+		lastRenderedSettings: string;
+	}> = new Set();
 
 	async onload() {
 		// 加载设置
@@ -74,9 +83,84 @@ export default class CountdownPlugin extends Plugin {
 	}
 
 	/**
+	 * 更新所有现有的倒计时容器
+	 * 当外观设置（颜色、字体大小、日期格式等）发生变化时调用
+	 */
+	refreshAllCards(): void {
+		const currentSettingsHash = this.getSettingsHash();
+
+		for (const containerData of this.activeContainers) {
+			const { container, source, lastRenderedSettings } = containerData;
+
+			// 如果设置没有变化，跳过更新
+			if (lastRenderedSettings === currentSettingsHash) {
+				continue;
+			}
+
+			// 清空容器并重新渲染
+			container.innerHTML = "";
+			this.renderCountdownContent(source, container);
+
+			// 更新最后渲染的设置哈希
+			containerData.lastRenderedSettings = currentSettingsHash;
+		}
+	}
+
+	/**
+	 * 获取当前设置的哈希值，用于检测设置变化
+	 */
+	private getSettingsHash(): string {
+		const settingsToHash = {
+			defaultColor: this.settings.defaultColor,
+			defaultDateFormat: this.settings.defaultDateFormat,
+			dateFontSize: this.settings.dateFontSize,
+			titleFontSize: this.settings.titleFontSize,
+			timeFontSize: this.settings.timeFontSize,
+			language: this.settings.language,
+		};
+		return JSON.stringify(settingsToHash);
+	}
+
+	/**
 	 * 处理倒计时代码块
 	 */
 	private processCountdownBlock(source: string, el: HTMLElement): void {
+		// 创建容器并记录源码，用于后续刷新
+		const containerData = {
+			container: el,
+			source: source,
+			lastRenderedSettings: this.getSettingsHash(),
+		};
+
+		this.activeContainers.add(containerData);
+
+		// 监听容器被移除，清理引用
+		const observer = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				for (let i = 0; i < mutation.removedNodes.length; i++) {
+					const removedNode = mutation.removedNodes[i];
+					if (removedNode === el || (removedNode as Element)?.contains?.(el)) {
+						this.activeContainers.delete(containerData);
+						observer.disconnect();
+						break;
+					}
+				}
+			}
+		});
+
+		observer.observe(document.body, {
+			childList: true,
+			subtree: true,
+		});
+
+		// 渲染内容
+		this.renderCountdownContent(source, el);
+	}
+
+	/**
+	 * 渲染倒计时内容
+	 */
+	private renderCountdownContent(source: string, el: HTMLElement): void {
 		let rawItems: CountdownItems;
 		const locale = getLocale(this.settings.language);
 		// console.log("处理倒计时代码块\n", source);
@@ -121,6 +205,11 @@ export default class CountdownPlugin extends Plugin {
 			try {
 				const card = this.createCountdownCard(item);
 				container.appendChild(card);
+
+				// 为每个卡片设置自动更新
+				if (this.settings.autoUpdate) {
+					this.setupCardAutoUpdate(card, item);
+				}
 			} catch (error) {
 				const errorMessage =
 					error instanceof Error ? error.message : locale.unknownError;
@@ -164,14 +253,6 @@ export default class CountdownPlugin extends Plugin {
 		}
 
 		const date = dayjs(item.date);
-		const now = dayjs();
-		const diffMs = date.diff(now);
-		const past = diffMs < 0;
-		const absDiff = Math.abs(diffMs);
-		const dur = dayjs.duration(absDiff);
-
-		// 计算显示文本
-		const text = calculateTimeText(past, absDiff, dur, locale.timeUnits);
 
 		// 应用默认值
 		const color = item.color || this.settings.defaultColor;
@@ -181,18 +262,101 @@ export default class CountdownPlugin extends Plugin {
 		const card = document.createElement("div");
 		Object.assign(card.style, cardStyles);
 
-		// 设置卡片内容
+		// 设置卡片内容（初始渲染）
+		this.updateCardContent(card, item, date, color, format, locale);
+
+		return card;
+	}
+
+	/**
+	 * 更新卡片内容
+	 */
+	private updateCardContent(
+		card: HTMLElement,
+		item: CountdownItem,
+		date: dayjs.Dayjs,
+		color: string,
+		format: string,
+		locale: LocaleStrings,
+	): void {
+		const now = dayjs();
+		const diffMs = date.diff(now);
+		const past = diffMs < 0;
+		const absDiff = Math.abs(diffMs);
+		const dur = dayjs.duration(absDiff);
+
+		// 计算显示文本
+		const newText = calculateTimeText(past, absDiff, dur, locale.timeUnits);
+
+		// 获取当前显示的倒计时文本
+		const timeElement = card.querySelector(".countdown-time");
+		const currentText = timeElement ? timeElement.textContent : "";
+
+		// 只有当文本发生变化时才更新DOM
+		if (currentText !== newText) {
+			// 设置卡片内容
+			card.innerHTML = createCountdownCard(
+				date,
+				item.title,
+				color,
+				newText,
+				format,
+				this.settings.dateFontSize,
+				this.settings.titleFontSize,
+				this.settings.timeFontSize,
+			);
+		}
+	}
+
+	/**
+	 * 强制更新卡片内容（不检查文本变化）
+	 * 用于设置更改后的强制刷新
+	 */
+	private forceUpdateCardContent(
+		card: HTMLElement,
+		item: CountdownItem,
+		date: dayjs.Dayjs,
+		color: string,
+		format: string,
+		locale: LocaleStrings,
+	): void {
+		const now = dayjs();
+		const diffMs = date.diff(now);
+		const past = diffMs < 0;
+		const absDiff = Math.abs(diffMs);
+		const dur = dayjs.duration(absDiff);
+
+		// 计算显示文本
+		const newText = calculateTimeText(past, absDiff, dur, locale.timeUnits);
+
+		// 强制更新卡片内容
 		card.innerHTML = createCountdownCard(
 			date,
 			item.title,
 			color,
-			text,
+			newText,
 			format,
 			this.settings.dateFontSize,
 			this.settings.titleFontSize,
 			this.settings.timeFontSize,
 		);
+	}
 
-		return card;
+	/**
+	 * 设置卡片自动更新
+	 */
+	private setupCardAutoUpdate(card: HTMLElement, item: CountdownItem): void {
+		const locale = getLocale(this.settings.language);
+		const date = dayjs(item.date);
+		const color = item.color || this.settings.defaultColor;
+		const format = item.format || this.settings.defaultDateFormat;
+
+		// 每秒更新一次倒计时
+		const updateInterval = window.setInterval(() => {
+			this.updateCardContent(card, item, date, color, format, locale);
+		}, 1000);
+
+		// 注册定时器，插件卸载时会自动清理
+		this.registerInterval(updateInterval);
 	}
 }

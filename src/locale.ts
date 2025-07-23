@@ -23,6 +23,11 @@ export interface LocaleStrings {
 	timeFontSize: string;
 	timeFontSizeDesc: string;
 
+	// Auto update settings
+	autoUpdateSettings: string;
+	autoUpdate: string;
+	autoUpdateDesc: string;
+
 	// Usage instructions
 	refreshInstructions: string;
 
@@ -81,8 +86,15 @@ export const locales: Record<SupportedLanguage, LocaleStrings> = {
 		timeFontSizeDesc:
 			"Set the font size for the countdown time text (in pixels)",
 
+		autoUpdateSettings: "Auto Update Settings",
+		autoUpdate: "Auto Update",
+		autoUpdateDesc:
+			"Enable automatic updates of countdown timers every second. When disabled, countdowns will only update when the note is refreshed.",
+
 		refreshInstructions: `
-			💡 Tip: The countdowns will only update upon re-rendering.
+			💡 Tip: This plugin supports automatic countdown updates every second. 
+					You can enable/disable auto-update in the settings below. 
+					When auto-update is disabled, countdowns will only update when the note is refreshed.
 					After changing settings, you may need to switch to edit mode and back to preview mode, 
 					or reopen the note to see changes applied to existing countdown widgets.`,
 
@@ -109,12 +121,12 @@ export const locales: Record<SupportedLanguage, LocaleStrings> = {
 			months: "months",
 			day: "day",
 			days: "days",
-			hour: "hour",
-			hours: "hours",
-			minute: "minute",
-			minutes: "minutes",
-			second: "second",
-			seconds: "seconds",
+			hour: "h",
+			hours: "h",
+			minute: "min",
+			minutes: "min",
+			second: "s",
+			seconds: "s",
 			expired: "Expired",
 		},
 	},
@@ -137,8 +149,15 @@ export const locales: Record<SupportedLanguage, LocaleStrings> = {
 		timeFontSize: "时间字体大小",
 		timeFontSizeDesc: "设置倒计时时间文字的字体大小（像素）",
 
+		autoUpdateSettings: "自动更新设置",
+		autoUpdate: "自动更新",
+		autoUpdateDesc:
+			"启用倒计时每秒自动更新。关闭时，倒计时仅在笔记刷新时更新。",
+
 		refreshInstructions: `
-			💡 提示：倒计时仅在重新渲染时更新。
+			💡 提示：此插件支持倒计时每秒自动更新。
+					您可以在下方设置中启用/禁用自动更新功能。
+					关闭自动更新时，倒计时仅在笔记刷新时更新。
 					修改设置后，您可能需要切换到编辑模式再回到预览模式，
 					或重新打开笔记才能看到现有倒计时小组件的更改效果。`,
 

@@ -24,6 +24,8 @@ export interface CountdownSettings {
 	dateFontSize: number;
 	titleFontSize: number;
 	timeFontSize: number;
+	// 自动更新设置
+	autoUpdate: boolean;
 }
 
 /**
@@ -36,6 +38,7 @@ export const DEFAULT_SETTINGS: CountdownSettings = {
 	dateFontSize: 14,
 	titleFontSize: 26,
 	timeFontSize: 24,
+	autoUpdate: true,
 };
 
 /**
@@ -88,10 +91,24 @@ export class CountdownSettingTab extends PluginSettingTab {
 					.onChange(async (value: SupportedLanguage) => {
 						this.plugin.settings.language = value;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新（语言变化会影响时间单位显示）
+						this.plugin.refreshAllCards();
 						this.display(); // 重新渲染界面
 					}),
 			);
 
+		// 自动更新开关
+		new Setting(containerEl)
+			.setName(locale.autoUpdate)
+			.setDesc(locale.autoUpdateDesc)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.autoUpdate)
+					.onChange(async (value) => {
+						this.plugin.settings.autoUpdate = value;
+						await this.plugin.saveSettings();
+					}),
+			);
 		// 日期格式设置
 		new Setting(containerEl)
 			.setName(locale.defaultDateFormat)
@@ -103,6 +120,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.defaultDateFormat = value || "YYYY-MM-DD";
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 					}),
 			);
 
@@ -175,6 +194,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 						const defaultColor = "#007bff";
 						this.plugin.settings.defaultColor = defaultColor;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 						textInput.setValue(defaultColor);
 						if (colorPicker) {
 							colorPicker.setValue(defaultColor);
@@ -187,6 +208,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 						// 6位格式，直接保存并同步
 						this.plugin.settings.defaultColor = value;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 						if (colorPicker) {
 							colorPicker.setValue(value);
 						}
@@ -198,6 +221,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 						);
 						this.plugin.settings.defaultColor = expandedColor;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 						// 更新输入框显示转换后的6位格式
 						textInput.setValue(expandedColor);
 						if (colorPicker) {
@@ -242,6 +267,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.dateFontSize = value;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 					}),
 			);
 
@@ -257,6 +284,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.titleFontSize = value;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 					}),
 			);
 
@@ -272,6 +301,8 @@ export class CountdownSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.timeFontSize = value;
 						await this.plugin.saveSettings();
+						// 触发所有卡片更新
+						this.plugin.refreshAllCards();
 					}),
 			);
 	}
