@@ -79,7 +79,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 > **Auto Update Feature**: This plugin supports real-time countdown updates every second. You can control this behavior in the plugin settings:
 >
 > - **Auto Update ON** (default): Countdowns update automatically every second for real-time display
-> - **Auto Update OFF**: Countdowns only refresh when the block is re-rendered (when reopening the note, switching to edit mode and back, or refreshing the view)
+> - **Auto Update OFF**: Countdowns only refresh when the block is re-rendered (when reopening the note, switching to edit mode and back, or refreshing the view). In this mode, the countdown numbers (minutes, seconds, etc.) will not change automatically until the block is re-rendered
 
 ## 📦 Installation
 
@@ -193,7 +193,7 @@ You can access the plugin settings through:
 
 - **Auto Update**: Enable/disable real-time countdown updates every second
 - When enabled: Countdowns update automatically every second for real-time display
-- When disabled: Countdowns only update when notes are refreshed or re-rendered
+- When disabled: Countdowns only update when notes are refreshed or re-rendered, and the countdown numbers (minutes, seconds, etc.) will remain static until then
 
 > [!TIP]
 > **Settings Changes**: All appearance settings (colors, font sizes, date formats, language) are applied immediately when changed. The auto-update setting only controls whether countdown numbers update in real-time every second.
@@ -326,4 +326,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<p style="font-size: 1.2em; color: #F07171; text-align: center;"><b>Happy counting down! 🎉</b></p>
+<p align="center">
+<strong>Happy counting down! 🎉</strong>
+</p>
