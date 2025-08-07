@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD033 MD036 MD041 -->
+
 <h1 align="center">Obsidian 简单倒计时小组件</h1>
 
 <p align="center">
@@ -102,7 +104,7 @@
 
 您的文件夹结构应如下所示：
 
-```
+```plaintext
 <您的知识库>/.obsidian/plugins/obsidian-simple-countdown/
 ├── main.js
 ├── manifest.json
@@ -127,7 +129,7 @@
 
 ### 基本文本格式
 
-```
+```plaintext
 2025-12-25 | 圣诞节 | #dc3545 | MM月DD日
 2025-06-01 | 儿童节 | #28a745
 2025-01-01 | 新年
@@ -240,7 +242,7 @@
 
 ### 文本格式语法
 
-```
+```plaintext
 日期 | 标题 | 颜色(可选) | 日期格式(可选)
 ```
 
@@ -309,7 +311,7 @@ bun run build
 
 ### 项目结构
 
-```
+```plaintext
 obsidian-simple-countdown/
 ├── src/
 │   ├── main.ts                 # 主插件入口点

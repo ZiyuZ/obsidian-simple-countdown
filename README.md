@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD033 MD036 MD041 -->
+
 <h1 align="center">Simple Countdown Widget for Obsidian</h1>
 
 <p align="center">
@@ -98,7 +100,7 @@ An elegant countdown widget plugin for Obsidian that displays beautiful countdow
 
 Your folder structure should look like this:
 
-```
+```plaintext
 <Your Vault>/.obsidian/plugins/obsidian-simple-countdown/
 ├── main.js
 ├── manifest.json
@@ -123,7 +125,7 @@ Your folder structure should look like this:
 
 ### Basic Text Format
 
-```
+```plaintext
 2025-12-25 | Christmas | #dc3545 | MM/DD
 2025-06-01 | Children's Day | #28a745
 2025-01-01 | New Year
@@ -236,7 +238,7 @@ Settings are applied in the following priority order:
 
 ### Text Format Syntax
 
-```
+```plaintext
 date | title | color(optional) | date format(optional)
 ```
 
@@ -247,7 +249,7 @@ interface CountdownItem {
   date: string;     // Required: ISO date string
   title: string;    // Required: Event title
   color?: string;   // Optional: Hex color (e.g., #ff0000)
-  format?: string;  // Optional: Date format in the upper left corner
+  format?: string;  // Optional: Date format at the upper left corner
 }
 ```
 
@@ -305,7 +307,7 @@ Then copy the file in the dist directory to `<Obsidian Vault>/.obsidian/plugins/
 
 ### Project Structure
 
-```
+```plaintext
 obsidian-simple-countdown/
 ├── src/
 │   ├── main.ts                 # Main plugin entry point
